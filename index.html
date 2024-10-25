@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Flip</title>
+</head>
+<body>
+    <h1 style="color: magenta;"> Coin Flip </h1>
+    <button style="font-size: 100px; background-color: rgb(116, 238, 63);" onclick="flipCoin()"> Flip </button>
+    <div id="result">
+        Fli pcoint o get stasrltefgd
+    </div>
+    <div style="margin-right: 0; margin-left: 85%;">
+        <input id="flip_Count"  placeholder="poo"></input>
+        <button onclick="Flip_Coins()"> Flip the coinS </button>
+        <div id="result_Two"> </div>
+    </div>
+    </body>
+
+<script>
+    async function flipCoin() {
+        try {
+            let requestUrl = "http://localhost:8000/flip-coin"
+            let response = await fetch(requestUrl)
+            let data = await response.json()
+
+            console.log(data.value)
+
+            document.getElementById('result').innerText = `Result: ${data.value}`
+
+        } catch (error) {
+            document.getElementById('result').innerText = "we're on vacation come back later"
+        }
+    }
+    async function Flip_Coins() {
+        try {
+            let flip_Value = document.getElementById('flip_Count').value
+            if (Number.isInteger(Number(flip_Value))) {
+                let request_Url = `http://localhost:8000/flip-coins?times=${flip_Value}`
+                let response = await fetch(request_Url)
+                let data = await response.json()
+                
+                console.log(data)
+                
+                document.getElementById('result_Two').innerText = `Heads: ${data.heads} Tails: ${data.tails}`
+            } else {
+                throw new Error('input must be integer')
+            }
+        }
+        
+        catch (error) {
+            document.getElementById('result_Two').innerText = "are you stupid"
+
+        }
+
+    }
+</script>
+</html>
